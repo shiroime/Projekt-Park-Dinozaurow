@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef enum {
     MIEZOZERNY,
@@ -10,7 +11,22 @@ typedef enum {
 typedef struct {
     Dieta dieta;
     double masa;
+    char gatunek[101];
 } Dinozaur;
+
+const char* dieta_na_tekst(Dieta d) {
+    switch (d)
+    {
+    case MIEZOZERNY:
+        return "Miesozerny";
+    case ROSLINOZERNY:
+        return "Roslinozerny";
+    case WSZYSTKOZERNY:
+        return "Wszystkozerny";
+    default:
+        return "Nieznana";
+    }
+}
 
 int main (void) 
 {
@@ -18,9 +34,12 @@ int main (void)
 
     d1.dieta = MIEZOZERNY;
     d1.masa = 1;
+    strcpy(d1.gatunek, "Tyrannosaurus rex");
 
-    printf("Dinozaur ma diete: %d\n", d1.dieta);
-    printf("Dinozaur ma mase: %2.f\n", d1.masa);
+    printf("Dinozaur ma diete: %s.\n", dieta_na_tekst(d1.dieta));
+    printf("Dinozaur ma mase: %2.f.\n", d1.masa);
+    printf("Gatunek: %s.\n", d1.gatunek);
+    
 
     return 0;
 }
