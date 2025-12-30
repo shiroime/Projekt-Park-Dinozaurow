@@ -1,2 +1,2 @@
-# Projekt-Park-Dinozaur-w
+# Projekt-Park-Dinozaurow
 Projekt z podstaw programowania język C.
