@@ -54,18 +54,29 @@ const char* status_bezpieczenstwa (StatusBezpieczenstwa s) {
 
 int main (void) 
 {
-    Dinozaur d1;
+    Dinozaur *dinozaury = NULL;
+    int liczba_dinozaurow = 0;
 
-    d1.dieta = MIEZOZERNY;
-    d1.masa = 1;
-    strcpy(d1.gatunek, "Tyrannosaurus rex");
-    d1.status = Zagrozenie;
+    dinozaury = malloc(sizeof(Dinozaur));
 
-    printf("Dinozaur ma diete: %s.\n", dieta_na_tekst(d1.dieta));
-    printf("Dinozaur ma mase: %.2f.\n", d1.masa);
-    printf("Gatunek: %s.\n", d1.gatunek);
-    printf("Dinozaur ma status: %s.\n", status_bezpieczenstwa(d1.status));
+    if (dinozaury == NULL) {
+        printf("Blad alokacji pamieci\n");
+        return 1;
+    }
+    liczba_dinozaurow = 1;
 
+    dinozaury[0].masa = 1;
+    dinozaury[0].dieta = MIEZOZERNY;
+    strcpy(dinozaury[0].gatunek, "Tyrannosaurus rex");
+    dinozaury[0].status = Zagrozenie;
 
+    printf("Dinozaur ma diete: %s.\n", dieta_na_tekst(dinozaury[0].dieta));
+    printf("Dinozaur ma mase: %.2f.\n", dinozaury[0].masa);
+    printf("Gatunek: %s.\n", dinozaury[0].gatunek);
+    printf("Dinozaur ma status: %s.\n", status_bezpieczenstwa(dinozaury[0].status));
+
+    free(dinozaury);
+    dinozaury = NULL;
+    
     return 0;
 }
