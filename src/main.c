@@ -86,15 +86,12 @@ int main (void)
     strcpy(dinozaury[1].gatunek, "Pterodaktyl");
     dinozaury[1].status = Bezpieczny;
 
-    printf("Dinozaur ma diete: %s.\n", dieta_na_tekst(dinozaury[0].dieta));
-    printf("Dinozaur ma mase: %.2f.\n", dinozaury[0].masa);
-    printf("Gatunek: %s.\n", dinozaury[0].gatunek);
-    printf("Dinozaur ma status: %s.\n", status_bezpieczenstwa(dinozaury[0].status));
-
-    printf("Dinozaur ma diete: %s.\n", dieta_na_tekst(dinozaury[1].dieta));
-    printf("Dinozaur ma mase: %.2f.\n", dinozaury[1].masa);
-    printf("Gatunek: %s.\n", dinozaury[1].gatunek);
-    printf("Dinozaur ma status: %s.\n", status_bezpieczenstwa(dinozaury[1].status));
+    for (int i = 0; i < liczba_dinozaurow; i++) {
+        printf("Dinozaur %d: %s\n", i, dinozaury[i].gatunek);
+        printf("Dinozaur ma diete: %s\n", dieta_na_tekst(dinozaury[i].dieta));
+        printf("Dinozaur ma mase: %.2f\n", dinozaury[i].masa);
+        printf("Dinozaur ma status: %s\n", status_bezpieczenstwa(dinozaury[i].status));
+    }
 
     free(dinozaury);
     dinozaury = NULL;
