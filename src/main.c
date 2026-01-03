@@ -52,6 +52,13 @@ const char* status_bezpieczenstwa (StatusBezpieczenstwa s) {
     }
 }
 
+void wypisz_dinozaura (const Dinozaur *d) {
+    printf("Gatunek: %s\n", d->gatunek);
+    printf("Dieta: %s\n", dieta_na_tekst(d->dieta));
+    printf("Masa: %.2f\n", d->masa);
+    printf("Status: %s\n", status_bezpieczenstwa(d->status));
+}
+
 int main (void) 
 {
     Dinozaur *dinozaury = NULL;
@@ -87,10 +94,7 @@ int main (void)
     dinozaury[1].status = Bezpieczny;
 
     for (int i = 0; i < liczba_dinozaurow; i++) {
-        printf("Dinozaur %d: %s\n", i, dinozaury[i].gatunek);
-        printf("Dinozaur ma diete: %s\n", dieta_na_tekst(dinozaury[i].dieta));
-        printf("Dinozaur ma mase: %.2f\n", dinozaury[i].masa);
-        printf("Dinozaur ma status: %s\n", status_bezpieczenstwa(dinozaury[i].status));
+        wypisz_dinozaura(&dinozaury[i]);
     }
 
     free(dinozaury);
