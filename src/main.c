@@ -56,6 +56,7 @@ int main (void)
 {
     Dinozaur *dinozaury = NULL;
     int liczba_dinozaurow = 0;
+    Dinozaur *tmp;
 
     dinozaury = malloc(sizeof(Dinozaur));
 
@@ -65,15 +66,35 @@ int main (void)
     }
     liczba_dinozaurow = 1;
 
+    tmp = realloc(dinozaury, (liczba_dinozaurow + 1) * sizeof(Dinozaur));
+
+    if (tmp == NULL) {
+        printf("Blad alokacji pamieci\n");
+        free(dinozaury);
+        return 1;
+    }
+    dinozaury = tmp;
+    liczba_dinozaurow++;
+
     dinozaury[0].masa = 1;
     dinozaury[0].dieta = MIEZOZERNY;
     strcpy(dinozaury[0].gatunek, "Tyrannosaurus rex");
     dinozaury[0].status = Zagrozenie;
 
+    dinozaury[1].masa = 113;
+    dinozaury[1].dieta = ROSLINOZERNY;
+    strcpy(dinozaury[1].gatunek, "Pterodaktyl");
+    dinozaury[1].status = Bezpieczny;
+
     printf("Dinozaur ma diete: %s.\n", dieta_na_tekst(dinozaury[0].dieta));
     printf("Dinozaur ma mase: %.2f.\n", dinozaury[0].masa);
     printf("Gatunek: %s.\n", dinozaury[0].gatunek);
     printf("Dinozaur ma status: %s.\n", status_bezpieczenstwa(dinozaury[0].status));
+
+    printf("Dinozaur ma diete: %s.\n", dieta_na_tekst(dinozaury[1].dieta));
+    printf("Dinozaur ma mase: %.2f.\n", dinozaury[1].masa);
+    printf("Gatunek: %s.\n", dinozaury[1].gatunek);
+    printf("Dinozaur ma status: %s.\n", status_bezpieczenstwa(dinozaury[1].status));
 
     free(dinozaury);
     dinozaury = NULL;
