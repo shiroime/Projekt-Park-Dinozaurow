@@ -112,6 +112,7 @@ void wypisz_dinozaura (const Dinozaur *d) {
 
 int main (void) 
 {
+    int idx;
     int wybor;
     Dinozaur *dinozaury = NULL;
     int liczba_dinozaurow = 0;
@@ -202,7 +203,49 @@ int main (void)
             break;
 
             case 4:
-                // usun dinozaura
+                if (liczba_dinozaurow == 0) {
+                    printf("Brak dinozaurow do usuniecia.\n");
+                    break;
+                }
+                else {
+                    for (int i = 0; i < liczba_dinozaurow; i++) {
+                        printf("%d. %s\n", i, dinozaury[i].gatunek);
+                    }
+                    printf("Podaj numer dinozaura do usuniecia: ");
+                    scanf("%d", &idx);
+
+                    if (idx < 0 || idx >= liczba_dinozaurow) {
+                        printf("Podano nieprawidlowy numer.\n");
+                        break;
+                    }
+                }
+
+                if (dinozaury[idx].status == Zagrozenie || dinozaury[idx].status == Ucieczka) {
+                        printf("Nie mozna usunac dinozaura: sytuacja niebezpieczna (%s).\n",
+                            status_bezpieczenstwa(dinozaury[idx].status));
+                        break;
+                    }
+
+                for (int i = idx; i < liczba_dinozaurow - 1; i++) {
+                    dinozaury[i] = dinozaury[i + 1];
+                }
+
+                liczba_dinozaurow--;
+
+                if (liczba_dinozaurow == 0) {
+                    free(dinozaury);
+                    dinozaury = NULL;
+                    printf("Usunieto ostatniego dinozaura.\n");
+                    break;
+                }
+
+                tmp = realloc(dinozaury, liczba_dinozaurow*sizeof(Dinozaur));
+                if (tmp == NULL) {
+                    printf("Blad zmniejszenia tablicy.\n");
+                    break;
+                }
+                dinozaury = tmp;
+                printf("Dinozaur zostal poprawnie usuniety.\n");
             break;
 
             case 5:
