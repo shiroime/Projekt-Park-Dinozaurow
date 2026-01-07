@@ -152,7 +152,7 @@ int main (void)
 
                 int idx = liczba_dinozaurow - 1;
 
-                printf("Podaj gatunek ");
+                printf("Podaj gatunek: ");
                 getchar();
                 fgets(dinozaury[idx].gatunek, sizeof(dinozaury[idx].gatunek), stdin);
                 dinozaury[idx].gatunek[strcspn(dinozaury[idx].gatunek, "\n")] = '\0';
@@ -249,7 +249,32 @@ int main (void)
             break;
 
             case 5:
-                // zmien status bezpieczenstwa
+                if (liczba_dinozaurow == 0) {
+                    printf("Brak dinozaurow do zmiany statusu.\n");
+                    break;
+                }
+
+                for (int i = 0; i < liczba_dinozaurow; i++) {
+                        printf("%d. %s\n", i, dinozaury[i].gatunek);
+                    }
+                printf("Wybor dinozaura do zmiany statusu (numer): ");
+                scanf("%d", &idx);
+
+                if (idx < 0 || idx >= liczba_dinozaurow) {
+                    printf("Wybrano nieprawidlowy numer.\n");
+                    break;
+                }
+                
+                int status_input;
+                printf("Wybierz nowy status bezpieczenstwa:\n");
+                printf("0 - Bezpieczny\n");
+                printf("1 - Pod obserwacja\n");
+                printf("2 - Zagrozenie\n");
+                printf("3 - Ucieczka\n");
+                printf("4 - Awaryjna kwarantanna\n");
+                scanf("%d", &status_input);
+                dinozaury[idx].status = (StatusBezpieczenstwa)status_input;
+                printf("Status zostal zmieniony.\n");
             break;
 
             case 6:
