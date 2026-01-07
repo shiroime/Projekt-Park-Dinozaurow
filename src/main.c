@@ -112,45 +112,120 @@ void wypisz_dinozaura (const Dinozaur *d) {
 
 int main (void) 
 {
+    int wybor;
     Dinozaur *dinozaury = NULL;
     int liczba_dinozaurow = 0;
     Dinozaur *tmp;
 
-    dinozaury = malloc(sizeof(Dinozaur));
+    do {
+        printf("\n=== PARK DINOZAUROW ===\n");
+        printf("1. Wypisz wszystkie dinozaury\n");
+        printf("2. Dodaj nowego dinozaura\n");
+        printf("4. Usun dinozaura\n");
+        printf("5. Zmien status bezpieczenstwa\n");
+        printf("6. Przenies dinozaura do innej zagrody\n");
+        printf("7. Zaplanuj karmienie\n");
+        printf("0. Zakoncz program\n");
+        printf("Twoj wybor: ");
+        scanf("%d", &wybor);
 
-    if (dinozaury == NULL) {
-        printf("Blad alokacji pamieci\n");
-        return 1;
-    }
-    liczba_dinozaurow = 1;
+        switch (wybor) {
+            case 1:
+                if (liczba_dinozaurow == 0)
+                    printf("Brak dinozaurow w parku.\n");
+                else {
+                    for (int i = 0; i < liczba_dinozaurow; i++) {
+                        wypisz_dinozaura(&dinozaury[i]);
+                    }
+                }
+            break;
 
-    tmp = realloc(dinozaury, (liczba_dinozaurow + 1) * sizeof(Dinozaur));
+            case 2:
+                tmp = realloc(dinozaury, (liczba_dinozaurow + 1) * sizeof(Dinozaur));
+                if (tmp == NULL) {
+                    printf("Brak alokacji dinozaurow.\n"); 
+                    break;
+                }
+                dinozaury = tmp;
+                liczba_dinozaurow++;
 
-    if (tmp == NULL) {
-        printf("Blad alokacji pamieci\n");
-        free(dinozaury);
-        return 1;
-    }
-    dinozaury = tmp;
-    liczba_dinozaurow++;
+                int idx = liczba_dinozaurow - 1;
 
-    dinozaury[0].masa = 1;
-    dinozaury[0].dieta = MIEZOZERNY;
-    strcpy(dinozaury[0].gatunek, "Tyrannosaurus rex");
-    dinozaury[0].status = Zagrozenie;
-    dinozaury[0].temperament = AGRESYWNY;
-    dinozaury[0].zagroda = Izolatka;
+                printf("Podaj gatunek ");
+                getchar();
+                fgets(dinozaury[idx].gatunek, sizeof(dinozaury[idx].gatunek), stdin);
+                dinozaury[idx].gatunek[strcspn(dinozaury[idx].gatunek, "\n")] = '\0';
 
-    dinozaury[1].masa = 113;
-    dinozaury[1].dieta = ROSLINOZERNY;
-    strcpy(dinozaury[1].gatunek, "Pterodaktyl");
-    dinozaury[1].status = Bezpieczny;
-    dinozaury[1].temperament = NIEPRZEWIDYWALNY;
-    dinozaury[1].zagroda = Zagroda_III;
+                int dieta_input;
+                printf("Wybierz diete:\n");
+                printf("0 - Miesozerny\n");
+                printf("1 - Roslinozerny\n");
+                printf("2 - Wszystkozerny\n");
+                printf("Twoj wybor: ");
+                scanf("%d", &dieta_input);
+                dinozaury[idx].dieta = (Dieta)dieta_input;
 
-    for (int i = 0; i < liczba_dinozaurow; i++) {
-        wypisz_dinozaura(&dinozaury[i]);
-    }
+                printf("Podaj mase (kg): ");
+                scanf("%lf", &dinozaury[idx].masa);
+
+                int status_input;
+                printf("Wybierz status bezpieczenstwa:\n");
+                printf("0 - Bezpieczny\n");
+                printf("1 - Pod obserwacja\n");
+                printf("2 - Zagrozenie\n");
+                printf("3 - Ucieczka\n");
+                printf("4 - Awaryjna kwarantanna\n");
+                printf("Twoj wybor: ");
+                scanf("%d", &status_input);
+                dinozaury[idx].status = (StatusBezpieczenstwa)status_input;
+
+                int temperament_input;
+                printf("Wybierz temperament:\n");
+                printf("0 - Spokojny\n");
+                printf("1 - Agresywny\n");
+                printf("2 - Nieprzewidywalny\n");
+                printf("Twoj wybor: ");
+                scanf("%d", &temperament_input);
+                dinozaury[idx].temperament = (Temperament)temperament_input;
+                
+                int zagroda_input;
+                printf("Wybierz zagrode:\n");
+                printf("0 - Zagroda I\n");
+                printf("1 - Zagroda II\n");
+                printf("2 - Zagroda III\n");
+                printf("3 - Zagroda IV\n");
+                printf("4 - Zagroda V\n");
+                printf("5 - Izolatka\n");
+                printf("Twoj wybor: ");
+                scanf("%d", &zagroda_input);
+                dinozaury[idx].zagroda = (Zagroda)zagroda_input;
+            break;
+
+            case 4:
+                // usun dinozaura
+            break;
+
+            case 5:
+                // zmien status bezpieczenstwa
+            break;
+
+            case 6:
+                // przenies dinozaura do innej zagrody
+            break;
+
+            case 7:
+                 // zaplanuj karmienie
+            break;
+
+            case 0:
+                printf("Koniec programu.\n");
+            break;
+
+            default:
+                printf("Nieprawidlowy wybor.\n");
+        }
+
+    } while (wybor != 0);
 
     free(dinozaury);
     dinozaury = NULL;
