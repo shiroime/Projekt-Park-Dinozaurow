@@ -112,6 +112,10 @@ void wypisz_dinozaura (const Dinozaur *d) {
 
 int main (void) 
 {
+    int status_input;
+    int dieta_input;
+    int temperament_input;
+    int zagroda_input;
     int idx;
     int wybor;
     Dinozaur *dinozaury = NULL;
@@ -157,19 +161,21 @@ int main (void)
                 fgets(dinozaury[idx].gatunek, sizeof(dinozaury[idx].gatunek), stdin);
                 dinozaury[idx].gatunek[strcspn(dinozaury[idx].gatunek, "\n")] = '\0';
 
-                int dieta_input;
                 printf("Wybierz diete:\n");
                 printf("0 - Miesozerny\n");
                 printf("1 - Roslinozerny\n");
                 printf("2 - Wszystkozerny\n");
                 printf("Twoj wybor: ");
                 scanf("%d", &dieta_input);
+                if (dieta_input < 0 || dieta_input > 2) {
+                    printf("Nieprawidlowy wybor diety.\n");
+                    break;
+                }
                 dinozaury[idx].dieta = (Dieta)dieta_input;
 
                 printf("Podaj mase (kg): ");
                 scanf("%lf", &dinozaury[idx].masa);
 
-                int status_input;
                 printf("Wybierz status bezpieczenstwa:\n");
                 printf("0 - Bezpieczny\n");
                 printf("1 - Pod obserwacja\n");
@@ -178,18 +184,24 @@ int main (void)
                 printf("4 - Awaryjna kwarantanna\n");
                 printf("Twoj wybor: ");
                 scanf("%d", &status_input);
+                if (status_input < 0 || status_input > 4) {
+                    printf("Nieprawidlowy wybor statusu.\n");
+                    break;
+                }
                 dinozaury[idx].status = (StatusBezpieczenstwa)status_input;
 
-                int temperament_input;
                 printf("Wybierz temperament:\n");
                 printf("0 - Spokojny\n");
                 printf("1 - Agresywny\n");
                 printf("2 - Nieprzewidywalny\n");
                 printf("Twoj wybor: ");
                 scanf("%d", &temperament_input);
+                if (temperament_input < 0 || temperament_input > 2) {
+                    printf("Nieprawidlowy wybor temperamentu.\n");
+                    break;
+                }
                 dinozaury[idx].temperament = (Temperament)temperament_input;
                 
-                int zagroda_input;
                 printf("Wybierz zagrode:\n");
                 printf("0 - Zagroda I\n");
                 printf("1 - Zagroda II\n");
@@ -199,6 +211,10 @@ int main (void)
                 printf("5 - Izolatka\n");
                 printf("Twoj wybor: ");
                 scanf("%d", &zagroda_input);
+                if (zagroda_input < 0 || zagroda_input > 5) {
+                    printf("Nieprawidlowy wybor zagrody.\n");
+                    break;
+                }
                 dinozaury[idx].zagroda = (Zagroda)zagroda_input;
             break;
 
@@ -264,8 +280,7 @@ int main (void)
                     printf("Wybrano nieprawidlowy numer.\n");
                     break;
                 }
-                
-                int status_input;
+
                 printf("Wybierz nowy status bezpieczenstwa:\n");
                 printf("0 - Bezpieczny\n");
                 printf("1 - Pod obserwacja\n");
