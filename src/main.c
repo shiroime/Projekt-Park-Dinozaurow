@@ -293,7 +293,37 @@ int main (void)
             break;
 
             case 6:
-                // przenies dinozaura do innej zagrody
+                if (liczba_dinozaurow == 0) {
+                    printf("Brak dinozaurow do przeniesienia.\n");
+                    break;
+                }
+
+                for (int i = 0; i < liczba_dinozaurow; i++) {
+                        printf("%d. %s\n", i, dinozaury[i].gatunek);
+                    }
+                printf("Podaj numer dinozaura do przeniesienia: ");
+                scanf("%d", &idx);
+
+                if (idx < 0 || idx >= liczba_dinozaurow) {
+                    printf("Wybrano nieprawidlowy numer.\n");
+                    break;
+                }
+
+                printf("Dostepne zagrody:\n");
+                printf("0 - Zagroda I\n");
+                printf("1 - Zagroda II\n");
+                printf("2 - Zagroda III\n");
+                printf("3 - Zagroda IV\n");
+                printf("4 - Zagroda V\n");
+                printf("5 - Izolatka\n");
+                printf("Twoj wybor: ");
+                scanf("%d", &zagroda_input);
+                if (zagroda_input < 0 || zagroda_input > 5) {
+                    printf("Nieprawidlowy wybor zagrody.\n");
+                    break;
+                }
+                dinozaury[idx].zagroda = (Zagroda)zagroda_input;
+                printf("Dinozaur zostal przeniesiony do nowej zagrody.\n");
             break;
 
             case 7:
