@@ -2,125 +2,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum {
-    MIESOZERNY,
-    ROSLINOZERNY,
-    WSZYSTKOZERNY
-} Dieta;
+#include "dinozaur.h"
+#include "plik.h"
 
-typedef enum {
-    Bezpieczny,
-    Pod_Obserwacja,
-    Zagrozenie,
-    Ucieczka,
-    Awaryjna_Kwarantanna
-} StatusBezpieczenstwa;
-
-typedef enum {
-    SPOKOJNY,
-    AGRESYWNY,
-    NIEPRZEWIDYWALNY,
-} Temperament;
-
-typedef enum {
-    Zagroda_I,
-    Zagroda_II,
-    Zagroda_III,
-    Zagroda_IV,
-    Zagroda_V,
-    Izolatka
-} Zagroda;
-
-typedef struct {
-    Dieta dieta;
-    double masa;
-    char gatunek[101];
-    StatusBezpieczenstwa status;
-    Temperament temperament;
-    Zagroda zagroda;
-} Dinozaur;
-
-const char* dieta_na_tekst (Dieta d) {
-    switch (d) {
-    case MIESOZERNY:
-        return "Miesozerny";
-    case ROSLINOZERNY:
-        return "Roslinozerny";
-    case WSZYSTKOZERNY:
-        return "Wszystkozerny";
-    default:
-        return "Nieznana";
-    }
-}
-const char* status_bezpieczenstwa (StatusBezpieczenstwa s) {
-    switch (s) {
-        case Bezpieczny:
-            return "Bezpieczny";
-        case Pod_Obserwacja:
-            return "Pod obserwacja";
-        case Zagrozenie:
-            return "Zagrozenie!";
-        case Ucieczka:
-            return "Ucieczka!";
-        case Awaryjna_Kwarantanna:
-            return "Awaryjna Kwarantanna!";
-        default:
-            return "Status nieznany";
-    }
-}
-
-const char* temperament_na_tekst (Temperament t) {
-    switch (t) {
-        case SPOKOJNY:
-            return "Spokojny";
-        case AGRESYWNY:
-            return "Agresywny";
-        case NIEPRZEWIDYWALNY:
-            return "Nieprzewidywalny";
-        default:
-            return "Temperament nieznany.";
-    }
-}
-
-const char* zagroda_na_tekst (Zagroda z) {
-    switch (z) {
-        case Zagroda_I:
-            return "Zagroda I";
-        case Zagroda_II:
-            return "Zagroda II";
-        case Zagroda_III:
-            return "Zagroda III";
-        case Zagroda_IV:
-            return "Zagroda IV";
-        case Zagroda_V:
-            return "Zagroda V";
-        case Izolatka:
-            return "Izolatka";
-        default:
-            return "Zagroda nieznana.";
-    }
-}
-
-void wypisz_dinozaura (const Dinozaur *d) {
-    printf("Gatunek: %s\n", d->gatunek);
-    printf("Dieta: %s\n", dieta_na_tekst(d->dieta));
-    printf("Masa: %.2f\n", d->masa);
-    printf("Status: %s\n", status_bezpieczenstwa(d->status));
-    printf("Temperament: %s\n", temperament_na_tekst(d->temperament));
-    printf("Zagroda: %s\n", zagroda_na_tekst(d->zagroda));
-}
-
-int main (void) 
+int main (int argc, char *argv[]) 
 {
-    int status_input;
-    int dieta_input;
-    int temperament_input;
-    int zagroda_input;
-    int idx;
-    int wybor;
+    int wybor, idx;
+    int dieta_input, status_input, temperament_input, zagroda_input;
+
     Dinozaur *dinozaury = NULL;
     int liczba_dinozaurow = 0;
     Dinozaur *tmp;
+
+    if (argc < 2) {
+        printf("Uzycie: %s plik_danych\n", argv[0]);
+        return 1;
+    }
+
+    const char *plik = argv[1];
+
+    if (wczytaj_z_pliku(plik, &dinozaury, &liczba_dinozaurow) != 0) {
+        printf("Blad wczytywania danych. Start z pusta baza.\n");
+        dinozaury = NULL;
+        liczba_dinozaurow = 0;
+    }
 
     do {
         printf("\n=== PARK DINOZAUROW ===\n");
@@ -154,7 +59,7 @@ int main (void)
                 dinozaury = tmp;
                 liczba_dinozaurow++;
 
-                int idx = liczba_dinozaurow - 1;
+                idx = liczba_dinozaurow - 1;
 
                 printf("Podaj gatunek: ");
                 getchar();
@@ -288,8 +193,13 @@ int main (void)
                 printf("3 - Ucieczka\n");
                 printf("4 - Awaryjna kwarantanna\n");
                 scanf("%d", &status_input);
+                if (status_input < 0 || status_input > 4) {
+                    printf("Nieprawidlowy wybor statusu.\n");
+                    break;
+                }
                 dinozaury[idx].status = (StatusBezpieczenstwa)status_input;
                 printf("Status zostal zmieniony.\n");
+
             break;
 
             case 6:
@@ -344,7 +254,7 @@ int main (void)
                     break;
                 }
                 if (dinozaury[idx].status == Ucieczka) {
-                    printf("Nie mozna nakarmic dinozaura, dinozaur uciekl.")
+                    printf("Nie mozna nakarmic dinozaura - ucieczka.");
                     break;
                 }
                 if (dinozaury[idx].status == Zagrozenie) {
@@ -364,7 +274,8 @@ int main (void)
             break;
 
             case 0:
-                printf("Koniec programu.\n");
+                zapisz_do_pliku(plik, dinozaury, liczba_dinozaurow);
+                printf("Zapisano dane. Koniec.\n");
             break;
 
             default:
@@ -374,7 +285,5 @@ int main (void)
     } while (wybor != 0);
 
     free(dinozaury);
-    dinozaury = NULL;
-    
     return 0;
 }
