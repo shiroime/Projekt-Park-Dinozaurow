@@ -258,7 +258,7 @@ int main (int argc, char *argv[])
                     break;
                 }
                 if (dinozaury[idx].status == Zagrozenie) {
-                    printf("OSTRZEZENIE! Karmienie awaryjne.");
+                    printf("OSTRZEZENIE! Karmienie awaryjne, dinozaur w stanie zagrozenia.");
                 }
                 switch (dinozaury[idx].dieta) {
                     case ROSLINOZERNY:
@@ -274,12 +274,18 @@ int main (int argc, char *argv[])
             break;
 
             case 0:
-                zapisz_do_pliku(plik, dinozaury, liczba_dinozaurow);
-                printf("Zapisano dane. Koniec.\n");
+                if (zapisz_do_pliku(plik, dinozaury, liczba_dinozaurow) == 0) {
+                    printf("Dane zapisane do pliku.\n");
+                } else {
+                    printf("Blad zapisu danych.\n");
+                }
+                printf("Koniec programu.\n");
             break;
+
 
             default:
                 printf("Nieprawidlowy wybor.\n");
+            break;
         }
 
     } while (wybor != 0);
