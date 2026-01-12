@@ -3,7 +3,7 @@
 #include <string.h>
 
 typedef enum {
-    MIEZOZERNY,
+    MIESOZERNY,
     ROSLINOZERNY,
     WSZYSTKOZERNY
 } Dieta;
@@ -42,7 +42,7 @@ typedef struct {
 
 const char* dieta_na_tekst (Dieta d) {
     switch (d) {
-    case MIEZOZERNY:
+    case MIESOZERNY:
         return "Miesozerny";
     case ROSLINOZERNY:
         return "Roslinozerny";
@@ -327,7 +327,40 @@ int main (void)
             break;
 
             case 7:
-                 // zaplanuj karmienie
+                 if (liczba_dinozaurow == 0) {
+                    printf("Brak dinozaurow do nakarmienia.\n");
+                    break;
+                }
+
+                printf("Ktorego dinozaura chcesz nakarmic?\n");
+                for(int i = 0; i < liczba_dinozaurow; i++) {
+                    printf("%d. %s\n", i, dinozaury[i].gatunek);
+                }
+                printf("Twoj wybor: ");
+                scanf("%d", &idx);
+
+                if (idx < 0 || idx >= liczba_dinozaurow) {
+                    printf("Wybrano nieprawidlowy numer.\n");
+                    break;
+                }
+                if (dinozaury[idx].status == Ucieczka) {
+                    printf("Nie mozna nakarmic dinozaura, dinozaur uciekl.")
+                    break;
+                }
+                if (dinozaury[idx].status == Zagrozenie) {
+                    printf("OSTRZEZENIE! Karmienie awaryjne.");
+                }
+                switch (dinozaury[idx].dieta) {
+                    case ROSLINOZERNY:
+                        printf("Podaj rosliny.\n");
+                        break;
+                    case MIESOZERNY:
+                        printf("Podaj mieso.\n");
+                        break;
+                    case WSZYSTKOZERNY:
+                        printf("Podaj mieso i rosliny.\n");
+                        break;
+                }
             break;
 
             case 0:
