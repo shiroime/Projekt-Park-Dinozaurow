@@ -291,5 +291,6 @@ int main (int argc, char *argv[])
     } while (wybor != 0);
 
     free(dinozaury);
+    dinozaury = NULL;
     return 0;
 }
